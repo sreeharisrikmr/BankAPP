@@ -1,0 +1,157 @@
+<app-delete-acno [deleteAcno]="acno" (onCancel)="cancelDeleteConfirm()" (onDelete)="deleteFromParent()" ></app-delete-acno>
+
+<div *ngIf="deleteSuccessMsg">
+  <h1 class="text-center text-success m-3">{{deleteSuccessMsg}}</h1>
+</div>
+
+
+<div *ngIf="!deleteConfirmStatus">
+
+<nav class="navbar navbar-expand-lg bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light" href="#">
+            <img width="30px" height="30px" src="https://cdn.dribbble.com/users/1221795/screenshots/2850723/money.gif"/>
+            Bank app
+          </a>      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ms-auto me-5">
+          
+          <li class="nav-item dropdown">
+            <a  class="text-light nav-link dropdown-toggle me-5"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           Services
+            </a>
+            <ul class="dropdown-menu">
+              <li><a (click)="getBalance()" class="dropdown-item" data-bs-toggle="offcanvas" href="#offcanvasExample"><i class="fa-solid fa-money-check-dollar fa-fade me-2 text-info"></i> Balance Enquiry</a></li>
+              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> <i class="fa-solid fa-money-bill-transfer fa-fade me-2 text-info"></i> Fund Transfer</a></li>
+              <li><a routerLink="/transactions" class="dropdown-item" > <i class="fa-solid fa-note-sticky fa-fade me-2 text-info"></i> Transaction History</a></li>
+              <li><a (click)="deleteAccount()" class="dropdown-item" > <i class="fa-solid fa-trash fa-fade me-2 text-info"></i>Remove Account</a></li>
+              <li><a class="dropdown-item" (click)="logout()" > <i class="fa-solid fa-right-from-bracket fa-fade me-2 text-info"></i>logout</a></li>
+
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Fund Transfer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <form [formGroup]="FundTransferFrom" >
+        <div class="form-floating mb-3">
+<input formControlName="creditAcno" name="creditAcno" type="text" class="form-control" id="floatingInput1" placeholder="Credit Account Number">
+          <label for="floatingInput1">Credit Account Number</label>
+          <div *ngIf="this.FundTransferFrom.get('creditAcno')?.errors&&this.FundTransferFrom.get('creditAcno')?.touched" class="text-danger">*Invalid Data</div>
+
+        </div>
+        <div class="form-floating mb-3">
+<input formControlName="amount" name="amount" type="text" class="form-control" id="floatingInput" placeholder="Amount">
+          <label for="floatingInput">Amount</label>
+          <div *ngIf="this.FundTransferFrom.get('amount')?.errors&&this.FundTransferFrom.get('amount')?.touched" class="text-danger">*Invalid data</div>
+
+        </div>
+        <div class="form-floating">
+<input formControlName="password" name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+          <label for="floatingPassword">Password</label>
+          <div *ngIf="this.FundTransferFrom.get('password')?.errors&&this.FundTransferFrom.get('password')?.touched" class="text-danger">*Invalid password</div>
+
+        </div>
+        <!-- //result -->
+        <div class="text-success fw-bolder text-center my-2">
+          {{transferSuccess}}
+        </div>
+        <div class="text-danger fw-bolder text-center my-2">
+          {{transferError}}
+        </div>
+<div class="text-center my-2 d-flex justify-content-evenly">
+  <button type="submit" (click)="reset()" class="btn btn-danger">Reset</button>
+  <button type="submit" (click)="dashboardForm()" class="btn btn-primary">Transfer</button>
+  <button type="submit" data-bs-dismiss="modal" class="btn btn-dark">Close</button>
+
+</div>
+       </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- offcanvas -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Balance Enquiry</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <img width="100%" height="300px" src="https://www.bing.com/th/id/OGC.7e7fa54042a29525901008b8dd8d5a44?pid=1.7&rurl=https%3a%2f%2fi.pinimg.com%2foriginals%2f63%2f89%2ffa%2f6389fa22ed7653c40570c98b03764afc.gif&ehk=xF9WjAIZ94QPfjtucSea7c0XO6yG9owc18ug2pYhNJ0%3d" alt="">
+
+    <div>
+      <h4>Hey {{user}},</h4>
+      <h5>Your Current Balance is : <span class="text-success">{{balance}} </span></h5>
+    </div>
+   
+  </div>
+</div>
+<!-- main content -->
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <!-- image -->
+            <img width="100%" height="450px" src="https://i.pinimg.com/originals/89/67/92/8967925b9d9141e88ced0a9020bdbc5e.gif" alt="">
+
+        </div>
+        <div class="col-6 p-5">
+            <!-- heading and Texts -->
+            <h1>Welcome {{user}}</h1>
+            <p style="text-align: justify;">Online banking allows you to conduct financial transactions via the Internet. Online banking is also known as Internet banking or web banking.</p>
+            
+            <div class="collapse" id="collapseExample">
+                
+                  Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+            
+            </div>
+
+            <button (click)="collapse()" class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#collapseExample">Read
+               <span *ngIf="!isCollapse">More</span>
+               <span *ngIf="isCollapse">Less</span>
+            
+            </button>
+        </div>
+    </div>
+</div>
+ <!-- footer -->
+
+<section class=" mt-5">
+  <!-- Footer -->
+  <footer class="text-center text-white" style="background-color: #0d477e;">
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+      <!-- Section: CTA -->
+      <section class="">
+        <p class="d-flex justify-content-center align-items-center">
+          <span class="me-3">Register for free</span>
+          <button type="button" class="btn btn-outline-light btn-rounded">
+            Sign up!
+          </button>
+        </p>
+      </section>
+      <!-- Section: CTA -->
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2023 Copyright:
+      <a class="text-white" href="https://mdbootstrap.com/">Bank app.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- Footer -->
+</section>

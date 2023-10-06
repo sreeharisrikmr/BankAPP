@@ -1,0 +1,100 @@
+
+<!-- navbar -->
+<nav class="navbar text-light bg-primary">
+  <div class="container-fluid">
+    <a class="text-white navbar-brand" href="#">
+      <p class="text-center"><i class="fa-solid fa-home"></i> Bank app</p>
+    </a>
+  </div>
+</nav>
+
+
+<!-- login form -->
+
+<div class="container">
+  <div class="row">
+    <div class="col-6 ">
+      <!-- image -->
+      <img class="m-3 me-5" width="100%" height="400px" src="https://sunaccounts.com/wp-content/uploads/2021/10/Credit-Control@2x.png" alt="">
+    </div>
+    <div class="col-6 mb-3 ">
+      <!-- login form -->
+      <form (ngSubmit)="login()" [formGroup]="loginForm" class="mt-5 border border  px-5 mx-3 rounded shadow">
+        <h3 class="text-info text-center my-3">Login here...</h3>
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+          <label class="form-label" for="form1Example1">Account Number</label>
+          <input name="acno" formControlName="acno" type="text" id="form1Example1" class="form-control" />
+          <div *ngIf="this.loginForm.get('acno')?.errors&&this.loginForm.get('acno')?.touched" class="text-danger">*Invalid Account Number</div>
+
+        </div>
+      
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+          <label class="form-label" for="form1Example2">Password</label>
+          <input name="password" formControlName="password"  type="password" id="form1Example2" class="form-control" />
+          <div *ngIf="this.loginForm.get('password')?.errors&&this.loginForm.get('password')?.touched" class="text-danger">*Invalid password</div>
+
+        </div>
+      
+        <!-- 2 column grid layout for inline styling -->
+        <div class="row mb-4">
+          <div class="col d-flex ">
+            <!-- Checkbox -->
+            <div class="form-check ">
+              <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
+              <label class="form-check-label" for="form1Example3"> Remember me </label>
+            </div>
+          </div>
+      
+        
+          
+        </div>
+      <div class="text-center">
+
+        <h4 class="text-danger">{{loginError}}</h4>
+           <!-- Submit button -->
+           <button type="submit"  class="btn btn-primary btn-block mb-2">Sign in 
+            <div *ngIf="loginSuccess" class="spinner-grow text-light" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+           </button>
+           <p>New to here? <a routerLink="register">Please Register </a> </p>
+      </div>
+       </form>
+    </div>
+  </div>
+ 
+  
+</div>
+
+
+<!-- footer -->
+
+<section class=" mt-5">
+  <!-- Footer -->
+  <footer class="text-center text-white" style="background-color: #0d477e;">
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+      <!-- Section: CTA -->
+      <section class="">
+        <p class="d-flex justify-content-center align-items-center">
+          <span class="me-3">Register for free</span>
+          <button type="button" class="btn btn-outline-light btn-rounded">
+            Sign up!
+          </button>
+        </p>
+      </section>
+      <!-- Section: CTA -->
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2023 Copyright:
+      <a class="text-white" href="https://mdbootstrap.com/">Bank app.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- Footer -->
+</section>
